@@ -1,0 +1,49 @@
+https://leetcode.com/problems/search-a-2d-matrix/
+You are given an m x n integer matrix matrix with the following two properties:
+Each row is sorted in non-decreasing order.
+The first integer of each row is greater than the last integer of the previous row.
+Given an integer target, return true if target is in matrix or false otherwise.
+You must write a solution in O(log(m * n)) time complexity.
+
+Example 1:
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+Output: true
+
+Example 2:
+Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
+Output: false
+
+class Solution {
+public:
+
+    bool searchinrow(vector<vector<int>>& mat, int tar,int row){
+        int n=mat[0].size();
+        int st=0,end=n-1;
+
+        while(st<=end){
+            int mid=st+(end-st)/2;
+            if(tar==mat[row][mid]){
+                return true;
+            }else if(tar>mat[row][mid]){
+                st=mid+1;
+            }else{ end =mid-1;}
+        }
+        return false;
+
+    }
+    bool searchMatrix(vector<vector<int>>& mat, int tar) {
+        int m=mat.size(),n=mat[0].size();
+
+        int startrow=0,endrow=m-1;
+        while(startrow<=endrow){
+            int midrow=startrow+(endrow-startrow)/2;
+
+            if(tar>=mat[midrow][0] && tar<=mat[midrow][n-1]){
+                return searchinrow(mat,tar,midrow);
+            }else if(tar>=mat[midrow][n-1]){
+                startrow=midrow+1;
+            }else{endrow=midrow-1;}
+        }
+        return false;
+    }
+};
